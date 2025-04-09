@@ -1,0 +1,24 @@
+<div class="search-bar">
+  <label for="search">Rechercher un restaurant</label>
+  <div class="search-bar__container">
+    <input
+      id="search"
+      type="text"
+      [(ngModel)]="searchQuery"
+      placeholder="Paris"
+      (input)="onSearch()"
+    />
+
+    <button (click)="onSearch()">🔍</button>
+  </div>
+
+  <div *ngIf="isLoading" class="loader"></div>
+
+  <ul *ngIf="results$ | async as locations" class="search-bar__suggestions">
+    <li *ngFor="let location of locations" (click)="onSelectLocation(location)">
+      {{ location.display_name }}
+    </li>
+  </ul>
+
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+</div>

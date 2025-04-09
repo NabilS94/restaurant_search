@@ -7,16 +7,20 @@ import { NominatimResult } from '../models/nominatim.model';
   providedIn: 'root',
 })
 export class NominatimService {
+  url: string = 'https://nominatim.openstreetmap.org/search';
   constructor(private http: HttpClient) {}
 
-  searchAddress(q: string): Observable<NominatimResult> {
+  searchAddress(q: string): Observable<NominatimResult[]> {
     const params = new HttpParams().set('q', q).set('format', 'json');
 
-    return this.http.get<NominatimResult>(
-      'https://nominatim.openstreetmap.org/search',
-      {
-        params,
-      }
-    );
+    return this.http.get<NominatimResult[]>(this.url, { params });
+  }
+
+  searchAddressWithLimit(city: string): Observable<NominatimResult[]> {
+    const params = new HttpParams()
+      .set('q', "McDonald's" + ', ' + city)
+      .set('format', 'json');
+
+    return this.http.get<NominatimResult[]>(this.url, { params });
   }
 }
