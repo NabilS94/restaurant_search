@@ -2,14 +2,13 @@ import {
   Component,
   EventEmitter,
   Input,
-  NgZone,
   OnChanges,
   Output,
   SimpleChanges,
 } from '@angular/core';
 import { LeafletModule } from '@bluehalo/ngx-leaflet';
 import * as L from 'leaflet';
-import { MapCoordinate } from '../models/map.model';
+import { RestaurantOM } from '../models/map.model';
 
 @Component({
   selector: 'app-map',
@@ -19,12 +18,10 @@ import { MapCoordinate } from '../models/map.model';
   styleUrls: ['./map.component.scss'],
 })
 export class MapComponent implements OnChanges {
-  @Input() coordinates: MapCoordinate[] = [];
+  @Input() coordinates: RestaurantOM[] = [];
   @Output() markerSelected = new EventEmitter<string>();
   markers: L.Marker[] = [];
   map!: L.Map;
-
-  constructor(private ngZone: NgZone) {}
 
   options: L.MapOptions = {
     layers: [
@@ -70,7 +67,7 @@ export class MapComponent implements OnChanges {
     }
   }
 
-  addMarker(mapMarker: MapCoordinate): void {
+  addMarker(mapMarker: RestaurantOM): void {
     const labelHtml = `
   <div class="wrapped-leaflet-tooltip">
     <div>${mapMarker.label}</div>
@@ -107,10 +104,5 @@ export class MapComponent implements OnChanges {
 
   private clearMarkers() {
     this.markers = [];
-  }
-
-  public updateRestaurantLocations(restaurantsCoordinates: MapCoordinate[]) {
-    this.coordinates = restaurantsCoordinates;
-    this.updateMarkers();
   }
 }
