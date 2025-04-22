@@ -3,6 +3,7 @@
     leaflet
     [leafletOptions]="options"
     [leafletLayers]="markers"
-    style="height: 400px"
+    (leafletMapReady)="onMapReady($event)"
+    style="height: 100vh; width: 100%"
   ></div>
 </div>

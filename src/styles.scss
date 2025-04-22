@@ -3,3 +3,12 @@ body {
     font-family: 'Arial', sans-serif;
     box-sizing: border-box;
 }
+
+.wrapped-leaflet-tooltip {
+    white-space: normal !important;
+    min-width: 250px;
+    word-break: break-word;
+    text-align: justify;
+    opacity: 1 !important;
+    border-radius: 13px !important;
+}

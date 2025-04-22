@@ -1,1 +1,3 @@
-<app-map [coordinates]="mapMarkers"></app-map>
+<app-search-bar (locations)="handleLocations($event)" />
+<app-map #map (markerSelected)="onRestaurantSelected($event)"></app-map>
+<app-sticky-popup [label]="selectedRestaurantLabel"></app-sticky-popup>

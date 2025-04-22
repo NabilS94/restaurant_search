@@ -1,0 +1,7 @@
+<div class="sticky-popup">
+  <h3>
+    {{ label ? "Restaurant Sélectionné" : "Aucun restaurant sélectionné" }}
+  </h3>
+  <p *ngIf="label">{{ label }}</p>
+  <button *ngIf="label" style="margin-top: 5px">Continuer</button>
+</div>
