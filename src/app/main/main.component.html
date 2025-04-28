@@ -1,6 +1,8 @@
-<app-search-bar (locations)="handleLocations($event)" />
+<app-search-bar [handleSuggestionSelect]="boundOnCitySelect" />
 <app-map
-  [coordinates]="mapCoordinates"
-  (markerSelected)="onRestaurantSelected($event)"
+  [coordinates]="(restaurants$ | async) ?? []"
+  [onMarkerSelected]="boundOnRestaurantSelect"
 ></app-map>
-<app-sticky-popup [label]="selectedRestaurantLabel"></app-sticky-popup>
+<app-sticky-popup
+  [label]="(chosenRestaurant$ | async)?.label ?? ''"
+></app-sticky-popup>

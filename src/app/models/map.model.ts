@@ -1,6 +1,6 @@
 import { NominatimResult } from './nominatim.model';
 
-export type RestaurantOM = Omit<
+export type MapLocation = Omit<
   NominatimResult,
   'lon' | 'lat' | 'display_name'
 > & {

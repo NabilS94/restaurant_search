@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   catchError,
@@ -8,7 +8,6 @@ import {
   Observable,
   of,
   switchMap,
-  take,
   tap,
 } from 'rxjs';
 import { NominatimResult } from '../models/nominatim.model';
@@ -26,8 +25,7 @@ export class SearchBarComponent {
   results$!: Observable<NominatimResult[]>;
   errorMessage: string | null = null;
   isLoading: boolean = false;
-
-  @Output() locations = new EventEmitter<NominatimResult[]>();
+  @Input() handleSuggestionSelect!: (suggestion: NominatimResult) => void;
 
   constructor(private searchService: NominatimService) {}
 
@@ -58,20 +56,8 @@ export class SearchBarComponent {
     );
   }
 
-  onSelectLocation(location: NominatimResult) {
+  onSuggestionSelect(suggestion: NominatimResult) {
     this.results$ = of([]);
-    this.searchService
-      .searchAddressWithLimit(location.address?.city || location.name)
-      .pipe(
-        take(1),
-        tap((locations) => {
-          this.locations.emit(locations);
-        }),
-        catchError((error) => {
-          console.error('API Error:', error);
-          return of([]);
-        })
-      )
-      .subscribe();
+    this.handleSuggestionSelect(suggestion);
   }
 }

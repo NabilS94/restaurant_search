@@ -14,9 +14,12 @@
 
   <div *ngIf="isLoading" class="loader"></div>
 
-  <ul *ngIf="results$ | async as locations" class="search-bar__suggestions">
-    <li *ngFor="let location of locations" (click)="onSelectLocation(location)">
-      {{ location.display_name }}
+  <ul *ngIf="results$ | async as suggestions" class="search-bar__suggestions">
+    <li
+      *ngFor="let suggestion of suggestions"
+      (click)="onSuggestionSelect(suggestion)"
+    >
+      {{ suggestion.display_name }}
     </li>
   </ul>
 

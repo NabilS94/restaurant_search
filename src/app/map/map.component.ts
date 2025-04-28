@@ -1,14 +1,7 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { LeafletModule } from '@bluehalo/ngx-leaflet';
 import * as L from 'leaflet';
-import { RestaurantOM } from '../models/map.model';
+import { MapLocation } from '../models/map.model';
 
 @Component({
   selector: 'app-map',
@@ -17,9 +10,9 @@ import { RestaurantOM } from '../models/map.model';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
 })
-export class MapComponent implements OnChanges {
-  @Input() coordinates: RestaurantOM[] = [];
-  @Output() markerSelected = new EventEmitter<string>();
+export class MapComponent {
+  @Input() coordinates: MapLocation[] = [];
+  @Input() onMarkerSelected: (marker: MapLocation) => void = () => {};
   markers: L.Marker[] = [];
   map!: L.Map;
 
@@ -38,27 +31,27 @@ export class MapComponent implements OnChanges {
     maxBoundsViscosity: 0.7,
   };
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['coordinates'] && !changes['coordinates'].firstChange) {
-      this.updateMarkers();
-    }
-  }
-
   onMapReady(map: L.Map) {
     this.map = map;
   }
 
-  private updateMarkers() {
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['coordinates'] && !changes['coordinates'].firstChange) {
+      this.updateMarkers(this.coordinates);
+    }
+  }
+
+  private updateMarkers(newMarkers: MapLocation[]) {
     this.clearMarkers();
 
-    this.coordinates.forEach((coordinate) => {
+    newMarkers.forEach((coordinate) => {
       this.addMarker(coordinate);
     });
 
-    if (this.map && this.coordinates.length > 0) {
+    if (this.map && newMarkers.length > 0) {
       const target = L.latLng(
-        Number(this.coordinates[0].latitude),
-        Number(this.coordinates[0].longitude)
+        Number(newMarkers[0].latitude),
+        Number(newMarkers[0].longitude)
       );
       this.map.flyTo(target, this.map.getZoom(), {
         animate: true,
@@ -67,7 +60,7 @@ export class MapComponent implements OnChanges {
     }
   }
 
-  addMarker(mapMarker: RestaurantOM): void {
+  addMarker(mapMarker: MapLocation): void {
     const labelHtml = `
   <div class="wrapped-leaflet-tooltip">
     <div>${mapMarker.label}</div>
@@ -93,7 +86,7 @@ export class MapComponent implements OnChanges {
         );
         if (btn) {
           btn.addEventListener('click', () => {
-            this.markerSelected.emit(mapMarker.label);
+            this.onMarkerSelected(mapMarker);
           });
         }
       }, 0);
