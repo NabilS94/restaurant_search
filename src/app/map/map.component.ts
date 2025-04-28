@@ -86,6 +86,7 @@ export class MapComponent {
         );
         if (btn) {
           btn.addEventListener('click', () => {
+            marker.closePopup();
             this.onMarkerSelected(mapMarker);
           });
         }

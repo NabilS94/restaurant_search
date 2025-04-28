@@ -1,17 +1,12 @@
-import { createAction, props } from '@ngrx/store';
+import { createActionGroup, props } from '@ngrx/store';
 import { MapLocation } from '../models/map.model';
 
-export const setSelectedCity = createAction(
-  '[App] Set Selected City',
-  props<{ city: string | null }>()
-);
-
-export const setRestaurants = createAction(
-  '[App] Set Restaurants',
-  props<{ restaurants: MapLocation[] }>()
-);
-
-export const setSelectedRestaurant = createAction(
-  '[App] Set Selected Restaurant',
-  props<{ restaurant: MapLocation | null }>()
-);
+export const appActions = createActionGroup({
+  source: 'App',
+  events: {
+    'Set Selected City': props<{ city: string }>(),
+    'Set Selected Restaurant': props<{ restaurant: MapLocation | null }>(),
+    'Set Restaurants': props<{ restaurants: MapLocation[] }>(),
+    'load Restaurants Failure': props<{ error: string }>(),
+  },
+});

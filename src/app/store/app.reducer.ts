@@ -1,18 +1,18 @@
 import { createReducer, on } from '@ngrx/store';
-import * as AppActions from './app.actions';
+import { appActions } from './app.actions';
 import { initialState } from './app.state';
 
 export const appReducer = createReducer(
   initialState,
-  on(AppActions.setSelectedCity, (state, { city }) => ({
+  on(appActions.setSelectedCity, (state, { city }) => ({
     ...state,
     selectedCity: city,
   })),
-  on(AppActions.setRestaurants, (state, { restaurants }) => ({
+  on(appActions.setRestaurants, (state, { restaurants }) => ({
     ...state,
     restaurants,
   })),
-  on(AppActions.setSelectedRestaurant, (state, { restaurant }) => ({
+  on(appActions.setSelectedRestaurant, (state, { restaurant }) => ({
     ...state,
     selectedRestaurant: restaurant,
   }))
