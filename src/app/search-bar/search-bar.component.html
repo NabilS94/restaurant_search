@@ -9,7 +9,9 @@
       (input)="onSearch()"
     />
 
-    <button (click)="onSearch()">🔍</button>
+    <button (click)="onSearch()">
+      <img src="/assets/search-icon.svg" alt="Logo" />
+    </button>
   </div>
 
   <div *ngIf="isLoading" class="loader"></div>

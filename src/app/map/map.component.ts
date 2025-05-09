@@ -1,4 +1,9 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  SimpleChanges,
+  ViewEncapsulation,
+} from '@angular/core';
 import { LeafletModule } from '@bluehalo/ngx-leaflet';
 import * as L from 'leaflet';
 import { MapLocation } from '../models/map.model';
@@ -9,6 +14,7 @@ import { MapLocation } from '../models/map.model';
   imports: [LeafletModule],
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class MapComponent {
   @Input() coordinates: MapLocation[] = [];
@@ -66,7 +72,7 @@ export class MapComponent {
     <div>${mapMarker.label}</div>
     <button id="select-btn-${
       mapMarker.latitude + mapMarker.longitude
-    }" style="margin-top: 5px;">Choisir</button>
+    }" class="select-btn">Choisir</button>
   </div>
 `;
 

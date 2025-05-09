@@ -58,6 +58,7 @@ export class SearchBarComponent {
 
   onSuggestionSelect(suggestion: NominatimResult) {
     this.results$ = of([]);
+    this.searchQuery = suggestion.display_name;
     this.handleSuggestionSelect(suggestion);
   }
 }
